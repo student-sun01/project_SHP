@@ -64,18 +64,32 @@ export default {
     // 编程式导航
     search() {
       // this.$router.push(`/search/${this.keyword}`);
+      // 准备location对象
       const location = {
         name: "search",
+        // 携带原本就有的query参数
+        query: this.$route.query,
       };
+      // 输入了才指定params参数
       if (this.keyword) {
-        location.params = {
-          //路由必须配置name
-          keyword: this.keyword,
-        };
-        location.query = {
-          keyword2: this.keyword.toUpperCase(),
-        };
+        location.params = { keyword: this.keyword };
       }
+      // this.$router.push(location);
+
+      /* 
+      从其他页到搜索页  push
+      从搜索页到搜索页  replace
+      */
+      if (this.$route.name === "search") {
+        this.$router.replace(location);
+      } else {
+        this.$router.push(location);
+      }
+
+      // location.query = {
+      // keyword2: this.keyword.toUpperCase(),
+      // };
+
       // 解决重复跳转路由的错误：
       // 方法一：传入成功的回调函数
       // router.push(location, onComplete?, onAbort?)
@@ -84,9 +98,17 @@ export default {
       // 方法二：catch处理错误的promise
       // router.push(location).then(onComplete).catch(onAbort)
       // this.$router.push(location).catch(()=>{})
-
-      this.$router.push(location);
     },
+  },
+  mounted() {
+    //2) 在Header中绑定自定义事件监听, 在回调中清除数据
+    this.$bus.$on("removeKeyword", () => {
+      this.keyword = "";
+    });
+  },
+  beforeDestroy() {
+    // 4). 在Header组件死亡之前解绑事件监听: 在beforeDestory中
+    this.$bus.$off("removeKeyword");
   },
 };
 </script>
