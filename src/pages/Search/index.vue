@@ -125,36 +125,14 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
         </div>
+        <Pagination
+          :currentPage="options.pageNo"
+          :total="total"
+          :pageSize="options.pageSize"
+          :showPageNo="3"
+          @currentChange="currentChange"
+        />
       </div>
     </div>
   </div>
@@ -175,7 +153,7 @@ export default {
         categoryName: "", // 分类名称
         keyword: "", // 搜索关键字
         props: [], // ["属性ID:属性值:属性名"]示例: ["2:6.0～6.24英寸:屏幕尺寸"]
-        trademark: "", // 品牌: "ID:品牌名称"示例: "1:苹果"
+        // trademark: "", // 品牌: "ID:品牌名称"示例: "1:苹果"
         order: "", // 排序方式 1: 综合,2: 价格 asc: 升序,desc: 降序 示例: "1:desc"
         pageNo: 1, // 页码
         pageSize: 10, // 每页数量
@@ -205,6 +183,13 @@ export default {
     },
   },
   methods: {
+    /* 
+    当前页码改变时的事件回调 
+    */
+    currentChange(page) {
+      this.getShopList(page);
+    },
+
     /* 
     设置新的排序搜索
     */
@@ -251,7 +236,13 @@ export default {
     */
     removeTrademark() {
       // 重置品牌条件数据
-      this.options.trademark = "";
+      // this.options.trademark = "";
+      // 删除响应式对象中的属性
+      // 应式对象中添加新的属性
+      // 不正确的方式: delete options.xxx 界面不会更新
+      // 正确的方式: Vue.delete( target, propertyName/index )
+      // this.$delete(target, propertyName/index)
+      this.$delete(this.options, "trademark");
       // 重新请求获取品牌数据列表
       this.getShopList();
     },
@@ -260,7 +251,12 @@ export default {
       // 如果当前品牌已经在条件中  直接结束
       if (trademark === this.options.trademark) return;
       // 更新options中的trademark为指定的值
-      this.options.trademark = trademark;
+      // this.options.trademark = trademark;
+      // 向响应式对象中添加新的属性
+      // 不正确的方式: options.xxx = 'abc'  界面不会更新 ==> 直接添加的属性不是响应式的
+      // 正确的方式: Vue.set( target, propertyName/index, value )
+      // this.$set(target, propertyName/index, value)
+      this.$set(this.options, "trademark", trademark);
       // 重新请求获取数据列表
       this.getShopList();
     },
@@ -321,14 +317,16 @@ export default {
         categoryName,
       };
     },
-    getShopList() {
+    getShopList(page = 1) {
+      // 更新options中的pageNo
+      this.options.pageNo = page;
       // 发送搜索请求
       this.$store.dispatch("getProductList", this.options);
     },
   },
 
   computed: {
-    ...mapGetters(["goodsList"]),
+    ...mapGetters(["goodsList", "total"]),
 
     /* 
     得到包含当前分类标识(orderflag)和排序方式(ordertype)的数组

@@ -3,28 +3,14 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" ref="mySwiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner1.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner4.jpg" />
-            </div>
-          </div>
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination"></div>
-
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div>
+        <swiper :options="swiperOptions">
+          <swiper-slide v-for="banner in bannerList" :key="banner.id">
+            <img :src="banner.imageUrl" style="width: 100%; height: 464px" />
+          </swiper-slide>
+          <div class="swiper-pagination" slot="pagination"></div>
+          <div class="swiper-button-prev" slot="button-prev"></div>
+          <div class="swiper-button-next" slot="button-next"></div>
+        </swiper>
       </div>
       <div class="right">
         <div class="news">
@@ -100,33 +86,37 @@
 </template>
 
 <script>
-import Swiper from "swiper";
 import { mapState } from "vuex";
+
 export default {
   name: "ListContainer",
-  // mapState读取到组件中
+
+  data() {
+    return {
+      swiperOptions: {
+        // direction: 'horizontal', // 水平切换选项
+        loop: true, // 循环模式选项
+        autoplay: {
+          // 自动轮播
+          delay: 4000,
+          disableOnInteraction: false, // 用户操作后是否停止自动轮播
+        },
+        // 如果需要分页器
+        pagination: {
+          el: ".swiper-pagination",
+        },
+        // 如果需要前进后退按钮
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      },
+    };
+  },
   computed: {
     ...mapState({
       bannerList: (state) => state.home.bannerList,
     }),
-  },
-  mounted() {
-    new Swiper(this.$refs.mySwiper, {
-      loop: true, // 循环模式选项
-      autoplay: {
-        disableOnInteraction: false, // 用户操作后, 恢复自动轮播
-      }, // 自动轮播
-      // 如果需要分页器
-      pagination: {
-        el: ".swiper-pagination",
-      },
-
-      // 如果需要前进后退按钮
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-    });
   },
 };
 </script>

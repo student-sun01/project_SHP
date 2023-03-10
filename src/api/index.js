@@ -20,7 +20,7 @@ export function reqCategoryList() {
 /*
 获取首页广告轮播列表
 */
-export const reqBannerList = () => ajax('/cms/banner')
+export const reqBannerList = () => mockAjax('/banners')
 
 /* 
 获取mock接口函数
