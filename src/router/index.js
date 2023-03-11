@@ -75,5 +75,12 @@ VueRouter.prototype.replace = function replace(location, onResolve, onReject) {
 export default new VueRouter({
     mode: 'history', //没有#的模式
     // 应用中的所有路由
-    routes
+    routes,
+
+    scrollBehavior(to, from, savedPosition) {
+        // 始终滚动到顶部
+        return { x: 0, y: 0 }
+    },
+
+
 })
