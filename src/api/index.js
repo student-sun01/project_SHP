@@ -60,3 +60,14 @@ export const reqAddOrUpdateCart = (skuId, skuNum) => {
     method: "post",
   });
 };
+
+/* 
+获取购物车列表
+/api/cart/cartList   GET
+*/
+export const reqCartList = () => {
+  return ajax({
+    url: "/cart/cartList",
+    method: "get",
+  });
+};

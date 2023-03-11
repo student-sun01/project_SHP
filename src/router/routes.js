@@ -4,9 +4,14 @@ import Register from "@/pages/Register";
 import Login from "@/pages/Login";
 import Detail from "../pages/Detail";
 import AddCartSuccess from "../pages/AddCartSuccess";
+import ShopCart from "@/pages/ShopCart";
 
 // 所有路由匹配的数组
 export default [
+  {
+    path: "/shopcart",
+    component: ShopCart,
+  },
   {
     path: "/addcartsuccess",
     component: AddCartSuccess,
