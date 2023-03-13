@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+let TOKEN_KEY = "TOKEN_KEY";
 function getUserTempId() {
   // debugger;
   // 这个函数是让用户获取到唯一的标识
@@ -12,4 +13,14 @@ function getUserTempId() {
   return userTempId;
 }
 
-export { getUserTempId };
+function setToken(token) {
+  localStorage.setItem(TOKEN_KEY, token);
+}
+function getToken() {
+  localStorage.getItem(TOKEN_KEY);
+}
+function removeToken() {
+  localStorage.removeItem(TOKEN_KEY);
+}
+
+export { getUserTempId, setToken, getToken, removeToken };

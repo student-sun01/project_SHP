@@ -13,12 +13,12 @@
 
 <script>
 import { mapState } from "vuex";
-import ListContainer from "../ListContainer";
-import TodayRecommend from "../TodayRecommend";
-import Rank from "../Rank/Rank.vue";
-import Like from "../Like/Like.vue";
-import Floor from "../Floor/Floor.vue";
-import Brand from "../Brand/Brand.vue";
+import ListContainer from "./ListContainer";
+import TodayRecommend from "./TodayRecommend";
+import Rank from "./Rank/Rank.vue";
+import Like from "./Like/Like.vue";
+import Floor from "./Floor/Floor.vue";
+import Brand from "./Brand/Brand.vue";
 export default {
   name: "Home",
   // 注册局部组件
