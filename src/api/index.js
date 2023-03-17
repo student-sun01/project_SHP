@@ -114,7 +114,7 @@ export const reqUserRgister = (userInfo) => {
 export const reqGetCode = (phone) => {
   return ajax({
     url: `/user/passport/sendCode/${phone}`,
-    method:'get'
+    method: "get",
   });
 };
 
@@ -122,11 +122,82 @@ export const reqGetCode = (phone) => {
 /api/user/passport/login
 POST
 */
-export const reqUserLogin = (userInfo)=>{
+export const reqUserLogin = (userInfo) => {
   return ajax({
     url: "/user/passport/login",
-    method:'post',
-    data:userInfo
+    method: "post",
+    data: userInfo,
   });
-}
+};
 
+/*
+ token校验
+api/user/passport/auth/getUserInfo
+GET
+ */
+export const reqUserInfo = () => {
+  return ajax({
+    url: "/user/passport/auth/getUserInfo",
+    method: "get",
+  });
+};
+
+/* 退出登录
+/api/user/passport/logout
+GET
+*/
+export const reqUserLogout = () => {
+  return ajax({
+    url: "/user/passport/logout",
+    method: "get",
+  });
+};
+
+/* 
+获取订单交易页信息
+/api/order/auth/trade
+GET
+*/
+export const reqTradeInfo = () => {
+  return ajax({
+    url: "/order/auth/trade",
+    method: "get",
+  });
+};
+
+/* 
+提交订单
+/api/order/auth/submitOrder?tradeNo={tradeNo}
+POST
+*/
+export const reqSubmitOrder = (tradeNo, tradeData) => {
+  return ajax({
+    url: `/order/auth/submitOrder?tradeNo=${tradeNo}`,
+    method: "post",
+    data: tradeData,
+  });
+};
+
+/* 
+获取订单支付信息
+/api/payment/weixin/createNative/{orderId}
+GET
+*/
+export const reqPayInfo = (orderId) => {
+  return ajax({
+    url: `/payment/weixin/createNative/${orderId}`,
+    method: "get",
+  });
+};
+
+/* 
+查询支付订单状态
+/api/payment/weixin/queryPayStatus/{orderId}
+GET
+*/
+export const reqPayStatus = (orderId) => {
+  return ajax({
+    url: `/payment/weixin/queryPayStatus/${orderId}`,
+    method: "get",
+  });
+};

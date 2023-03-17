@@ -1,7 +1,13 @@
 /*
 管理登录用户数据的vuex子模块
 */
-import { reqGetCode, reqUserLogin, reqUserRgister } from "@/api";
+import {
+  reqGetCode,
+  reqUserInfo,
+  reqUserLogin,
+  reqUserRgister,
+  reqUserLogout,
+} from "@/api";
 import {
   getUserTempId,
   setToken,
@@ -13,6 +19,7 @@ const state = {
   userTempId: getUserTempId(),
   code: "",
   token: getToken(), //先从localstorage中获取
+  userInfo: {},
 };
 const mutations = {
   GETCODE(state, code) {
@@ -20,6 +27,12 @@ const mutations = {
   },
   RECEIVE_TOKEN(state, token) {
     state.token = token;
+  },
+  RECEIVE_USERINFO(state, userInfo) {
+    state.userInfo = userInfo;
+  },
+  RESETUSERINFO(state) {
+    (state.userInfo = {}), (state.token = "");
   },
 };
 const actions = {
@@ -46,11 +59,38 @@ const actions = {
   // 登录
   async userLogin({ commit }, userInfo) {
     const result = await reqUserLogin(userInfo);
-    console.log(result);
+    // console.log(result);
     if (result.code === 200) {
       commit("RECEIVE_TOKEN", result.data.token);
       // localStorage.setItem("TOKEN_KEY", result.data.token);
       setToken(result.data.token);
+      return "ok";
+    } else {
+      return Promise.reject(new Error("failed"));
+    }
+  },
+  // token校验
+  async getUserInfo({ commit }) {
+    const result = await reqUserInfo();
+    if (result.code === 200) {
+      commit("RECEIVE_USERINFO", result.data);
+      return "ok";
+    } else {
+      return Promise.reject(new Error("failed"));
+    }
+  },
+  //清除用户信息和token
+  async resetUserInfo({ commit }) {
+    // 先调用函数清除localstorage当中的token信息
+    removeToken();
+    commit("RESETUSERINFO");
+  },
+  // 退出登录
+  async userLogout({ commit }) {
+    const result = await reqUserLogout();
+    if (result.code === 200) {
+      removeToken();
+      commit("RESETUSERINFO");
       return "ok";
     } else {
       return Promise.reject(new Error("failed"));

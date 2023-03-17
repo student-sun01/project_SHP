@@ -17,7 +17,7 @@ function setToken(token) {
   localStorage.setItem(TOKEN_KEY, token);
 }
 function getToken() {
-  localStorage.getItem(TOKEN_KEY);
+  return localStorage.getItem(TOKEN_KEY);
 }
 function removeToken() {
   localStorage.removeItem(TOKEN_KEY);

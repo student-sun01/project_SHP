@@ -21,9 +21,15 @@ service.interceptors.request.use((config) => {
   // 在发送请求前回调
   // 显示请求进度条
   Nprogress.start();
+  // 携带临时标识
   let userTempId = store.state.user.userTempId;
   if (userTempId) {
     config.headers.userTempId = userTempId;
+  }
+//携带登录后标识token
+  let token = store.state.user.token;
+  if (token) {
+    config.headers.token = token;
   }
   // 必须返回config  ==> 用于内部发ajax请求
   return config;

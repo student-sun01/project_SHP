@@ -89,12 +89,15 @@ export default {
     async login() {
       // 获取用户数据
       let { phone, password } = this;
-      if ((phone, password)) {
+      if (phone && password) {
         // 发请求登录
         try {
           await this.$store.dispatch("userLogin", { phone, password });
           alert("登录成功，准备跳转首页");
-          this.$router.push("/");
+          // 下面的需要和导航守卫配合去想去而没有去到的地方
+          let redirect = this.$route.query.redirect || "/";
+
+          this.$router.push(redirect);
         } catch (error) {
           alert(error.message);
         }
