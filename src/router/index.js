@@ -115,7 +115,16 @@ router.beforeEach(async (to, from, next) => {
   } else {
     // 代表用户没登录或者之前也没登录过
     // 后期我们需要判断用户是不是去订单相关的页面，如果是那么就先登录
-    next();
+    //交易相关的 支付相关的 用户中心相关的 都是需要登录才能访问
+    if (
+      to.path.indexOf("/trade") === 0 ||
+      to.path.startsWith("/pay") ||
+      to.path.startsWith("/center")
+    ) {
+      next("/login?redirect=" + to.path);
+    } else {
+      next()
+    }
   }
 });
 export default router;

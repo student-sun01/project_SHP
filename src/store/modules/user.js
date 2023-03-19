@@ -48,7 +48,7 @@ const actions = {
   // 获取验证码
   async getCode({ commit }, phone) {
     const result = await reqGetCode(phone);
-    // console.log(result);
+    console.log(result);
     if (result.code === 200) {
       commit("GETCODE", result.data);
       return "ok";

@@ -201,3 +201,15 @@ export const reqPayStatus = (orderId) => {
     method: "get",
   });
 };
+
+/* 
+获取我的订单列表
+/api/order/auth/{page}/{limit}
+GET
+*/
+export const reqMyOrderList = (page, limit) => {
+  return ajax({
+    url: `/order/auth/${page}/${limit}`,
+    method: "get",
+  });
+};

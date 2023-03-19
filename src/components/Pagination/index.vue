@@ -53,7 +53,7 @@
 </template>
 <script>
 export default {
-  name: "Pagination",
+  name: "MyPagination",
   /* 设计props: 从父组件(外部)传入的可变数据
 		currentPage: 当前页码
 		total: 所有数据的总数量

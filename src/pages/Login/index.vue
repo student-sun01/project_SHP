@@ -103,6 +103,19 @@ export default {
         }
       }
     },
+    // beforeRouteEnter(to, from) {
+    // 在渲染该组件的对应路由被验证前调用
+    // 不能获取组件实例 `this` ！
+    // 因为当守卫执行时，组件实例还没被创建！
+    // next((vm) => {
+    // if(vm.state.user.token){
+    // next('/')
+    // }else{
+    // next()
+    // }
+    // 通过 `vm` 访问组件实例
+    // });
+    // },
   },
 };
 </script>
